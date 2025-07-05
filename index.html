@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Помощник по курсу</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #f0f2f5; }
+    h1 { font-size: 24px; margin-bottom: 10px; }
+    .block { background: white; border-radius: 10px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    label { display: block; margin-bottom: 5px; }
+    input, textarea { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ccc; }
+    button { padding: 10px 15px; background: #4caf50; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; }
+    button:hover { background: #45a049; }
+  </style>
+</head>
+<body>
+  <h1>📲 Помощник по курсу</h1>
+
+  <div class="block">
+    <h3>💧 Вода</h3>
+    <label for="water">Количество стаканов:</label>
+    <input type="number" id="water" min="0" placeholder="Например, 6">
+  </div>
+
+  <div class="block">
+    <h3>🍽 Еда</h3>
+    <label for="food">Что ел сегодня?</label>
+    <textarea id="food" rows="3" placeholder="Опиши приёмы пищи..."></textarea>
+  </div>
+
+  <div class="block">
+    <h3>⚖️ Вес</h3>
+    <label for="weight">Текущий вес (кг):</label>
+    <input type="number" id="weight" step="0.1" placeholder="Например, 72.5">
+  </div>
+
+  <button onclick="sendData()">💾 Сохранить</button>
+
+  <script>
+    function sendData() {
+      const data = {
+        water: document.getElementById('water').value,
+        food: document.getElementById('food').value,
+        weight: document.getElementById('weight').value,
+        date: new Date().toISOString().split('T')[0]
+      };
+
+      const json = JSON.stringify(data);
+      if (window.Telegram.WebApp) {
+        Telegram.WebApp.sendData(json);
+        Telegram.WebApp.close();
+      } else {
+        alert('Открывай через Telegram');
+      }
+    }
+  </script>
+</body>
+</html>
